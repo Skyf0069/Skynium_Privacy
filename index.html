@@ -43,6 +43,61 @@
             font-size: 1.1rem;
         }
 
+        /* Styles pour la grille de la politique de confidentialité */
+        .section-title {
+            color: var(--primary);
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary);
+            display: inline-block;
+        }
+
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .policy-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+            transition: transform var(--transition-speed) ease;
+        }
+        
+        .policy-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .policy-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .policy-card p, .policy-card ul {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .policy-card ul {
+            padding-left: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .policy-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Styles pour les cartes de cookies */
         .cookie-card {
             background: var(--white);
             border-radius: var(--border-radius);
@@ -66,7 +121,7 @@
             flex: 1;
             padding-right: 2rem;
         }
-        .cookie-info h2 {
+        .cookie-info h3 {
             margin: 0 0 0.5rem 0;
             color: var(--primary);
             font-size: 1.3rem;
@@ -335,7 +390,7 @@
     <header role="banner">
         <div>
             <img src="https://skynium.fr/ressources/logo.png" alt="Skynium - Retour à l'accueil"> 
-            <a href="https://www.skynium.fr"><p>SKYNIUM</p></a>
+            <a href="https://www.skynium.fr"><p>Skynium</p></a>
         </div>
         <nav role="navigation" aria-label="Navigation principale">
             <ul id="main-nav">
@@ -364,23 +419,85 @@
         <section class="privacy-hero">
             <h1><i class="fas fa-shield-alt" aria-hidden="true" style="color: var(--secondary);"></i> Centre de Confidentialité</h1>
             <p>
-                Bienvenue sur l'espace dédié à la protection de vos données. Ici, vous pouvez gérer en toute transparence 
-                vos préférences de navigation pour l'ensemble de l'écosystème Skynium (y compris Above The Sky et la Skynium Arena).
+                Bienvenue sur l'espace dédié à la protection de vos données. Chez Skynium, votre vie privée n'est pas une marchandise.
+                Consultez notre politique de traitement et gérez vos préférences de navigation en toute transparence.
             </p>
         </section>
 
+        <!-- ============================================ -->
+        <!-- POLITIQUE DE TRAITEMENT DES DONNÉES          -->
+        <!-- ============================================ -->
+        <section aria-labelledby="policy-heading">
+            <h2 id="policy-heading" class="section-title">Politique de traitement des données</h2>
+            
+            <div class="policy-grid">
+                
+                <!-- Finalités et Données -->
+                <div class="policy-card">
+                    <h3><i class="fas fa-bullseye"></i> Finalités & Données</h3>
+                    <p>Les données personnelles collectées (nom, prénom, e-mail, téléphone, demande d’assistance, navigateur, pays, adresse IP) sont utilisées pour :</p>
+                    <ul>
+                        <li>Gérer les demandes d’assistance</li>
+                        <li>Facturer les prestations (si applicable)</li>
+                        <li>Assurer le suivi client</li>
+                        <li>Envoi de newsletters (avec consentement explicite)</li>
+                    </ul>
+                </div>
+
+                <!-- Base légale -->
+                <div class="policy-card" style="border-top-color: var(--secondary);">
+                    <h3><i class="fas fa-balance-scale"></i> Base Légale</h3>
+                    <p>Le traitement de vos données s'appuie sur les bases légales suivantes :</p>
+                    <ul>
+                        <li><strong>Consentement :</strong> Pour l'envoi de newsletters.</li>
+                        <li><strong>Exécution d'un contrat :</strong> Pour la réalisation et la facturation des prestations.</li>
+                        <li><strong>Obligation légale :</strong> Si applicable (ex: conservation comptable).</li>
+                    </ul>
+                </div>
+
+                <!-- Destinataires -->
+                <div class="policy-card">
+                    <h3><i class="fas fa-network-wired"></i> Destinataires</h3>
+                    <p>Vos données sont accessibles et traitées uniquement par :</p>
+                    <ul>
+                        <li><strong>L’éditeur :</strong> Jonathan BALBAS</li>
+                        <li><strong>Outils métiers :</strong> Invoice Ninja (facturation), FreeScout (assistance), Tally (suivi client)</li>
+                        <li><strong>Hébergeurs :</strong> IONOS et OVH</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-weight: bold; color: #00875A;"><i class="fas fa-globe-europe"></i> Aucun transfert hors UE.</p>
+                </div>
+
+                <!-- Durée & Droits -->
+                <div class="policy-card" style="border-top-color: var(--secondary);">
+                    <h3><i class="fas fa-user-shield"></i> Conservation & Vos Droits</h3>
+                    <p><strong>Durée de conservation :</strong></p>
+                    <ul>
+                        <li>Demandes d’assistance : 5 ans</li>
+                        <li>Factures et devis : 7 ans</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Vos droits (RGPD) :</strong><br>
+                    Vous disposez d'un droit d’accès, de rectification, d’effacement, d’opposition, de portabilité et du droit de retirer votre consentement à tout moment.</p>
+                    <p style="margin-top: 10px;"><strong>Pour exercer ces droits :</strong><br>
+                    <a href="mailto:jonathanb@skynium.fr">jonathanb@skynium.fr</a></p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- GESTION DES COOKIES                          -->
+        <!-- ============================================ -->
         <section aria-labelledby="cookies-heading">
-            <h2 id="cookies-heading" class="sr-only">Gestion de vos cookies</h2>
+            <h2 id="cookies-heading" class="section-title">Gestion de vos cookies</h2>
 
             <!-- Cookies Obligatoires -->
             <div class="cookie-card required">
                 <div class="cookie-info">
-                    <h2><i class="fas fa-lock" aria-hidden="true"></i> Cookies strictement nécessaires</h2>
+                    <h3><i class="fas fa-lock" aria-hidden="true"></i> Cookies strictement nécessaires</h3>
                     <p>
-                        Ces cookies sont indispensables au bon fonctionnement technique de nos sites. Ils permettent d'assurer 
-                        la sécurité de votre connexion (via Auth0), de mémoriser vos choix de confidentialité actuels et de gérer 
-                        l'accessibilité (via votre menu latéral). Ils ne peuvent pas être désactivés car les sites ne pourraient 
-                        plus fonctionner correctement.
+                        Le site utilise des cookies obligatoires pour mémoriser les informations de contact (nom, e-mail, téléphone) 
+                        et assurer le fonctionnement sécurisé du site (ex: portail Auth0). Le consentement n’est pas requis pour ces cookies 
+                        strictement nécessaires au fonctionnement du site.
                     </p>
                 </div>
                 <div class="switch-container">
@@ -391,19 +508,18 @@
                 </div>
             </div>
 
-            <!-- Cookies Analytics -->
+            <!-- Cookies Suivi (Analytiques) -->
             <div class="cookie-card">
                 <div class="cookie-info">
-                    <h2><i class="fas fa-chart-line" aria-hidden="true" style="color: var(--secondary);"></i> Mesure d'audience et Amélioration</h2>
+                    <h3><i class="fas fa-route" aria-hidden="true" style="color: var(--secondary);"></i> Cookies de suivi de navigation</h3>
                     <p>
-                        Nous utilisons ces cookies pour comprendre comment vous interagissez avec nos sites (pages les plus visitées, 
-                        temps passé, parcours sur le site de la Skynium Arena ou d'Above The Sky). Cela nous permet d'améliorer 
-                        continuellement nos services et de vous offrir une expérience fluide. Ces données sont anonymisées.
+                        Nous utilisons ces cookies pour suivre la navigation (navigateur utilisé, pays de connexion, adresse IP). 
+                        Cela nous permet de comprendre comment vous interagissez avec l'écosystème Skynium afin d'améliorer nos services.
                     </p>
                 </div>
                 <div class="switch-container">
                     <label class="switch">
-                        <input type="checkbox" id="analytics-toggle" aria-label="Activer les cookies de mesure d'audience">
+                        <input type="checkbox" id="analytics-toggle" aria-label="Activer les cookies de suivi de navigation">
                         <span class="slider" aria-hidden="true"></span>
                     </label>
                 </div>
@@ -468,11 +584,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 1. Définition du domaine partagé pour les cookies (Permet à data.skynium.fr de parler à www.skynium.fr)
-            // Si on est en local, on ne met pas de point. En production, on cible ".skynium.fr"
             const cookieDomain = window.location.hostname.includes('skynium.fr') ? "domain=.skynium.fr;" : "";
 
-            // 2. Fonction de lecture du cookie
             function getPrivacyCookie(name) {
                 let nameEQ = name + "=";
                 let ca = document.cookie.split(';');
@@ -484,40 +597,32 @@
                 return null;
             }
 
-            // 3. Fonction d'écriture du cookie (Partagé sur le domaine)
             function setPrivacyCookie(name, value, days) {
                 let date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; " + cookieDomain + " path=/; SameSite=Lax";
             }
 
-            // 4. Initialisation du bouton (toggle) au chargement
             const toggle = document.getElementById('analytics-toggle');
             const currentConsent = getPrivacyCookie('skynium_data_consent');
             
             if (currentConsent === 'accepted') {
                 toggle.checked = true;
             } else {
-                // Par défaut, si pas de cookie ou refusé, c'est décoché (Respect RGPD)
                 toggle.checked = false;
             }
 
-            // 5. Action au clic sur "Enregistrer"
             const saveBtn = document.getElementById('save-preferences');
             saveBtn.addEventListener('click', () => {
                 const isAccepted = toggle.checked;
                 
-                // On enregistre le cookie pour 1 an (365 jours)
                 setPrivacyCookie('skynium_data_consent', isAccepted ? 'accepted' : 'refused', 365);
                 
-                // Animation de confirmation (Message de succès)
                 const msg = document.getElementById('status-msg');
                 msg.style.display = 'block';
                 
-                // Fait remonter doucement la page pour bien voir le message
                 window.scrollTo({ top: msg.offsetTop - 150, behavior: 'smooth' });
 
-                // On cache le message après 5 secondes
                 setTimeout(() => { 
                     msg.style.display = 'none'; 
                 }, 5000);
