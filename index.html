@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre de Confidentialité - Skynium</title>
+
+    <!-- Fichiers CSS Globaux -->
+    <link rel="stylesheet" href="https://skynium.fr/ressources/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Police Dyslexie -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap" rel="stylesheet">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://skynium.fr/ressources/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="https://skynium.fr/ressources/favicon/favicon.svg" />
+    <link rel="shortcut icon" href="https://skynium.fr/ressources/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://skynium.fr/ressources/favicon/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Skynium Privacy" />
+    <link rel="manifest" href="https://skynium.fr/ressources/favicon/site.webmanifest" />
+
+    <!-- Style spécifique pour le Centre de Confidentialité -->
+    <style>
+        .privacy-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .privacy-hero h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .privacy-hero p {
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .cookie-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid var(--secondary);
+            transition: transform var(--transition-speed) ease;
+        }
+        .cookie-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .cookie-card.required {
+            border-left-color: var(--primary);
+        }
+        .cookie-info {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        .cookie-info h2 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary);
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cookie-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Accessible Toggle Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            flex-shrink: 0;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #00875A; /* Vert Succès */
+        }
+        input:focus + .slider {
+            outline: 3px solid var(--tertiary);
+            outline-offset: 2px;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        input:disabled + .slider {
+            background-color: var(--primary);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .save-btn-container {
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+        }
+        .save-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 15px rgba(29, 4, 105, 0.2);
+        }
+        .save-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        #status-msg {
+            text-align: center;
+            color: #00875A;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            display: none;
+            background-color: #E6F7F0;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .cookie-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            .cookie-info {
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================ -->
+    <!-- LIEN D'ÉVITEMENT                             -->
+    <!-- ============================================ -->
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <!-- ============================================ -->
+    <!-- BOUTON & PANNEAU ACCESSIBILITÉ               -->
+    <!-- ============================================ -->
+    <button id="accessibility-button" aria-label="Ouvrir le panneau d'accessibilité" aria-expanded="false" aria-controls="accessibility-panel">
+        <i class="fas fa-universal-access" aria-hidden="true"></i>
+    </button>
+
+    <aside id="accessibility-panel" class="accessibility-panel" role="dialog" aria-labelledby="accessibility-title" aria-modal="false">
+        <button class="close-btn" aria-label="Fermer le panneau d'accessibilité" id="close-panel-btn">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+
+        <h2 id="accessibility-title">Options d'accessibilité</h2>
+        <div class="accessibility-status" role="status" aria-live="polite">
+            <p><strong>Modes actifs :</strong> <span id="active-modes-count">Aucun</span></p>
+        </div>
+
+        <section class="accessibility-section">
+            <h3>Modes d'accessibilité</h3>
+            <div class="accessibility-option" data-mode="epilepsy-safe" role="switch" aria-checked="false" tabindex="0">
+                <div>
+                    <strong>Mode sans échec pour l'épilepsie</strong>
+                    <p class="option-desc">Atténue la couleur et supprime les clignements</p>
+                </div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="visually-impaired" role="switch" aria-checked="false" tabindex="0">
+                <div>
+                    <strong>Mode malvoyant</strong>
+                    <p class="option-desc">Améliore les visuels du site</p>
+                </div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="cognitive-disability" role="switch" aria-checked="false" tabindex="0">
+                <div>
+                    <strong>Mode handicap cognitif</strong>
+                    <p class="option-desc">Aide à se concentrer sur un contenu spécifique</p>
+                </div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="adhd-friendly" role="switch" aria-checked="false" tabindex="0">
+                <div>
+                    <strong>Mode adapté au TDAH</strong>
+                    <p class="option-desc">Réduit les distractions</p>
+                </div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="screen-reader" role="switch" aria-checked="false" tabindex="0">
+                <div>
+                    <strong>Mode Cécité</strong>
+                    <p class="option-desc">Optimisé pour lecteur d'écran</p>
+                </div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <section class="accessibility-section">
+            <h3>Expérience lisible</h3>
+            <div class="slider-option">
+                <label for="font-size-slider">Taille de la police</label>
+                <div class="slider-container">
+                    <input type="range" id="font-size-slider" min="80" max="150" value="100" step="10" aria-valuemin="80" aria-valuemax="150" aria-valuenow="100" aria-label="Ajuster la taille de la police">
+                    <span id="font-size-value">100%</span>
+                </div>
+            </div>
+            <div class="slider-option">
+                <label for="line-height-slider">Hauteur de ligne</label>
+                <div class="slider-container">
+                    <input type="range" id="line-height-slider" min="1.2" max="2.5" value="1.6" step="0.1" aria-label="Ajuster la hauteur de ligne">
+                    <span id="line-height-value">1.6</span>
+                </div>
+            </div>
+            <div class="slider-option">
+                <label for="letter-spacing-slider">Espacement des lettres</label>
+                <div class="slider-container">
+                    <input type="range" id="letter-spacing-slider" min="0" max="5" value="0" step="0.5" aria-label="Ajuster l'espacement des lettres">
+                    <span id="letter-spacing-value">0px</span>
+                </div>
+            </div>
+            <div class="accessibility-option" data-mode="dyslexia-font" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Police adaptée à la dyslexie</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="highlight-headings" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Titres en surbrillance</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="highlight-links" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Liens en surbrillance</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="text-align-options">
+                <label>Alignement du texte</label>
+                <div class="button-group" role="radiogroup" aria-label="Alignement du texte">
+                    <button class="align-btn active" data-align="left" role="radio" aria-checked="true" aria-label="Aligner à gauche"><i class="fas fa-align-left" aria-hidden="true"></i></button>
+                    <button class="align-btn" data-align="center" role="radio" aria-checked="false" aria-label="Centrer"><i class="fas fa-align-center" aria-hidden="true"></i></button>
+                    <button class="align-btn" data-align="right" role="radio" aria-checked="false" aria-label="Aligner à droite"><i class="fas fa-align-right" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="accessibility-section">
+            <h3>Expérience visuellement agréable</h3>
+            <div class="button-group" role="radiogroup" aria-label="Mode de contraste">
+                <button class="contrast-btn active" data-contrast="normal" role="radio" aria-checked="true" aria-label="Contraste normal">Normal</button>
+                <button class="contrast-btn" data-contrast="dark" role="radio" aria-checked="false" aria-label="Mode sombre">Sombre</button>
+                <button class="contrast-btn" data-contrast="light" role="radio" aria-checked="false" aria-label="Mode clair">Clair</button>
+                <button class="contrast-btn" data-contrast="high" role="radio" aria-checked="false" aria-label="Contraste élevé">Élevé</button>
+            </div>
+            <div class="accessibility-option" data-mode="high-saturation" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Haute saturation</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="low-saturation" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Faible saturation</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="monochrome" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Monochrome</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <section class="accessibility-section">
+            <h3>Orientation facile</h3>
+            <div class="accessibility-option" data-mode="highlight-cursor" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Mettre en surbrillance le curseur</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="big-cursor-dark" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Grand curseur sombre</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+            <div class="accessibility-option" data-mode="big-cursor-light" role="switch" aria-checked="false" tabindex="0">
+                <div><strong>Grand curseur clair</strong></div>
+                <div class="toggle-switch" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <button id="reset-accessibility-btn" class="reset-btn">
+            <i class="fas fa-undo" aria-hidden="true"></i> Réinitialiser tous les paramètres
+        </button>
+    </aside>
+
+    <!-- ============================================ -->
+    <!-- HEADER                                       -->
+    <!-- ============================================ -->
+    <header role="banner">
+        <div>
+            <img src="https://skynium.fr/ressources/logo.png" alt="Skynium - Retour à l'accueil"> 
+            <a href="https://www.skynium.fr"><p>SKYNIUM</p></a>
+        </div>
+        <nav role="navigation" aria-label="Navigation principale">
+            <ul id="main-nav">
+                <li><a href="https://www.skynium.fr/assistance.html">Assistance</a></li>
+                <li><a href="https://www.skynium.fr/temoignage.html">Témoignage</a></li>
+                <li>
+                    <a href="#" aria-haspopup="true" aria-expanded="false">Partenaires</a>
+                    <ul>
+                        <li><a href="https://abovethesky.skynium.fr">Above The Sky</a></li>
+                        <li><a href="https://e-reservation.skynium.fr">Skynium E-Reservation</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://www.skynium.fr/apropos.html">À propos</a></li>
+            </ul>
+            <button id="mobile-menu-icon" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="main-nav">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- ============================================ -->
+    <!-- CONTENU PRINCIPAL                            -->
+    <!-- ============================================ -->
+    <main id="main-content" role="main">
+        
+        <section class="privacy-hero">
+            <h1><i class="fas fa-shield-alt" aria-hidden="true" style="color: var(--secondary);"></i> Centre de Confidentialité</h1>
+            <p>
+                Bienvenue sur l'espace dédié à la protection de vos données. Ici, vous pouvez gérer en toute transparence 
+                vos préférences de navigation pour l'ensemble de l'écosystème Skynium (y compris Above The Sky et la Skynium Arena).
+            </p>
+        </section>
+
+        <section aria-labelledby="cookies-heading">
+            <h2 id="cookies-heading" class="sr-only">Gestion de vos cookies</h2>
+
+            <!-- Cookies Obligatoires -->
+            <div class="cookie-card required">
+                <div class="cookie-info">
+                    <h2><i class="fas fa-lock" aria-hidden="true"></i> Cookies strictement nécessaires</h2>
+                    <p>
+                        Ces cookies sont indispensables au bon fonctionnement technique de nos sites. Ils permettent d'assurer 
+                        la sécurité de votre connexion (via Auth0), de mémoriser vos choix de confidentialité actuels et de gérer 
+                        l'accessibilité (via votre menu latéral). Ils ne peuvent pas être désactivés car les sites ne pourraient 
+                        plus fonctionner correctement.
+                    </p>
+                </div>
+                <div class="switch-container">
+                    <label class="switch" aria-label="Cookies strictement nécessaires activés par défaut">
+                        <input type="checkbox" checked disabled aria-disabled="true">
+                        <span class="slider" aria-hidden="true"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Cookies Analytics -->
+            <div class="cookie-card">
+                <div class="cookie-info">
+                    <h2><i class="fas fa-chart-line" aria-hidden="true" style="color: var(--secondary);"></i> Mesure d'audience et Amélioration</h2>
+                    <p>
+                        Nous utilisons ces cookies pour comprendre comment vous interagissez avec nos sites (pages les plus visitées, 
+                        temps passé, parcours sur le site de la Skynium Arena ou d'Above The Sky). Cela nous permet d'améliorer 
+                        continuellement nos services et de vous offrir une expérience fluide. Ces données sont anonymisées.
+                    </p>
+                </div>
+                <div class="switch-container">
+                    <label class="switch">
+                        <input type="checkbox" id="analytics-toggle" aria-label="Activer les cookies de mesure d'audience">
+                        <span class="slider" aria-hidden="true"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Bouton de sauvegarde -->
+            <div class="save-btn-container">
+                <button id="save-preferences" class="save-btn">
+                    <i class="fas fa-save" aria-hidden="true"></i> Enregistrer mes préférences
+                </button>
+                <div id="status-msg" role="alert" aria-live="polite">
+                    <i class="fas fa-check-circle" aria-hidden="true"></i> Vos préférences ont été appliquées avec succès à tout l'écosystème Skynium !
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ============================================ -->
+    <!-- FOOTER                                       -->
+    <!-- ============================================ -->
+    <footer role="contentinfo">
+        <div>
+            <h3>Nos réseaux</h3>
+            <nav aria-label="Réseaux sociaux">
+                <ul>
+                    <li><a href="https://instagram.com/skynium"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+                    <li><a href="https://facebook.com/SkyniumRECONECT"><i class="fa-brands fa-facebook" aria-hidden="true"></i> Facebook</a></li>
+                    <li><a href="https://wa.me/33667225452"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h3>Informations</h3>
+            <nav aria-label="Informations légales">
+                <ul>
+                    <li><a href="https://www.skynium.fr/mentionslegales.html">Mentions Légales</a></li>
+                    <li><a href="https://www.skynium.fr/politiqueconfidentialite.html">Politique de Confidentialité</a></li>
+                    <li><a href="https://www.skynium.fr/accessibilite.html">Déclaration d'Accessibilité</a></li>
+                    <li><a href="https://www.skynium.fr/horizon2027.html">Horizon 2027</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div>
+            <h3>Contact</h3>
+            <p><a href="mailto:contact@skynium.fr"><i class="fa-solid fa-envelope" aria-hidden="true"></i> contact@skynium.fr</a></p>
+            <p><a href="sms:+33667225452"><i class="fa-solid fa-phone" aria-hidden="true"></i> +33 6 67 22 54 52</a></p>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Skynium. Tous droits réservés.
+        </div>
+    </footer>
+
+    <!-- SCRIPTS GLOBAUX -->
+    <call-us-selector phonesystem-url="https://1187.3cx.cloud" party="skynium"></call-us-selector>
+    <script>var FreeScoutW={s:{"color":"#1d0469","position":"br","locale":"fr","require":["name","email","phone"],"id":1681224262}};(function(d,e,s){if(d.getElementById("freescout-w"))return;a=d.createElement(e);m=d.getElementsByTagName(e)[0];a.async=1;a.id="freescout-w";a.src=s;m.parentNode.insertBefore(a, m)})(document,"script","https://support.iris.skynium.fr/modules/chat/js/widget.js?v=2503");</script>
+    <script src="https://skynium.fr/ressources/accessibility.js"></script>
+    <script src="https://skynium.fr/ressources/app.js"></script>
+
+    <!-- SCRIPT GESTION DES COOKIES DE CONFIDENTIALITÉ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Définition du domaine partagé pour les cookies (Permet à data.skynium.fr de parler à www.skynium.fr)
+            // Si on est en local, on ne met pas de point. En production, on cible ".skynium.fr"
+            const cookieDomain = window.location.hostname.includes('skynium.fr') ? "domain=.skynium.fr;" : "";
+
+            // 2. Fonction de lecture du cookie
+            function getPrivacyCookie(name) {
+                let nameEQ = name + "=";
+                let ca = document.cookie.split(';');
+                for(let i=0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+                }
+                return null;
+            }
+
+            // 3. Fonction d'écriture du cookie (Partagé sur le domaine)
+            function setPrivacyCookie(name, value, days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; " + cookieDomain + " path=/; SameSite=Lax";
+            }
+
+            // 4. Initialisation du bouton (toggle) au chargement
+            const toggle = document.getElementById('analytics-toggle');
+            const currentConsent = getPrivacyCookie('skynium_data_consent');
+            
+            if (currentConsent === 'accepted') {
+                toggle.checked = true;
+            } else {
+                // Par défaut, si pas de cookie ou refusé, c'est décoché (Respect RGPD)
+                toggle.checked = false;
+            }
+
+            // 5. Action au clic sur "Enregistrer"
+            const saveBtn = document.getElementById('save-preferences');
+            saveBtn.addEventListener('click', () => {
+                const isAccepted = toggle.checked;
+                
+                // On enregistre le cookie pour 1 an (365 jours)
+                setPrivacyCookie('skynium_data_consent', isAccepted ? 'accepted' : 'refused', 365);
+                
+                // Animation de confirmation (Message de succès)
+                const msg = document.getElementById('status-msg');
+                msg.style.display = 'block';
+                
+                // Fait remonter doucement la page pour bien voir le message
+                window.scrollTo({ top: msg.offsetTop - 150, behavior: 'smooth' });
+
+                // On cache le message après 5 secondes
+                setTimeout(() => { 
+                    msg.style.display = 'none'; 
+                }, 5000);
+            });
+
+        });
+    </script>
+</body>
+</html>
