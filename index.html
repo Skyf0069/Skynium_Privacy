@@ -757,7 +757,7 @@
                 btnText.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Recherche...';
                 
                 // Appel vers ton VPS (L'API Skynium Takeout que nous allons créer)
-                fetch('https://api.skynium.fr/takeout', {
+                fetch('https://api.skynium.fr/webhook/takeout', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: email })
