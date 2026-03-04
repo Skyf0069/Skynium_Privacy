@@ -39,7 +39,6 @@
             font-size: 1.1rem;
         }
 
-        /* Styles pour la grille de la politique de confidentialité */
         .section-title {
             color: var(--primary);
             margin: 3rem 0 1.5rem 0;
@@ -48,6 +47,127 @@
             display: inline-block;
         }
 
+        /* Styles pour le Live Dashboard Matomo */
+        .live-dashboard {
+            background: linear-gradient(135deg, rgba(29, 4, 105, 0.05) 0%, rgba(250, 93, 255, 0.05) 100%);
+            border: 2px dashed var(--primary);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .live-dashboard.blind-mode {
+            background: #f8f9fa;
+            border-color: #00875A; /* Vert sécurité */
+            opacity: 0.9;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .dashboard-header h3 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .live-dashboard:not(.blind-mode) .status-badge {
+            background-color: rgba(250, 93, 255, 0.1);
+            color: var(--secondary);
+        }
+
+        .live-dashboard.blind-mode .status-badge {
+            background-color: #E6F7F0;
+            color: #00875A;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .data-item {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            text-align: center;
+        }
+
+        .data-item i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .data-label {
+            font-size: 0.85rem;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .data-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        /* Overlay aveugle */
+        .blind-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 10;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .live-dashboard.blind-mode .blind-overlay {
+            display: flex;
+        }
+
+        .blind-icon {
+            font-size: 3rem;
+            color: #00875A;
+            margin-bottom: 1rem;
+        }
+
+        .blind-text {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: bold;
+            max-width: 500px;
+        }
+
+        /* Styles de la Grille de Politique (Existant) */
         .policy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -78,22 +198,11 @@
             gap: 10px;
         }
         
-        .policy-card p, .policy-card ul {
-            color: #555;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
+        .policy-card p, .policy-card ul { color: #555; font-size: 0.95rem; line-height: 1.6; }
+        .policy-card ul { padding-left: 1.2rem; margin-top: 0.5rem; }
+        .policy-card li { margin-bottom: 0.5rem; }
 
-        .policy-card ul {
-            padding-left: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        .policy-card li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Styles pour les cartes de cookies */
+        /* Styles pour les cartes de cookies (Existant) */
         .cookie-card {
             background: var(--white);
             border-radius: var(--border-radius);
@@ -106,283 +215,42 @@
             border-left: 5px solid var(--secondary);
             transition: transform var(--transition-speed) ease;
         }
-        .cookie-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        .cookie-card.required {
-            border-left-color: var(--primary);
-        }
-        .cookie-info {
-            flex: 1;
-            padding-right: 2rem;
-        }
-        .cookie-info h3 {
-            margin: 0 0 0.5rem 0;
-            color: var(--primary);
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .cookie-info p {
-            margin: 0;
-            color: #666;
-            font-size: 0.95rem;
-        }
+        .cookie-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .cookie-card.required { border-left-color: var(--primary); }
+        .cookie-info { flex: 1; padding-right: 2rem; }
+        .cookie-info h3 { margin: 0 0 0.5rem 0; color: var(--primary); font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+        .cookie-info p { margin: 0; color: #666; font-size: 0.95rem; }
 
         /* Accessible Toggle Switch */
-        .switch-container {
-            display: flex;
-            align-items: center;
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-            flex-shrink: 0;
-        }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #00875A; /* Vert Succès */
-        }
-        input:focus + .slider {
-            outline: 3px solid var(--tertiary);
-            outline-offset: 2px;
-        }
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        input:disabled + .slider {
-            background-color: var(--primary);
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+        .switch-container { display: flex; align-items: center; }
+        .switch { position: relative; display: inline-block; width: 60px; height: 34px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #00875A; }
+        input:focus + .slider { outline: 3px solid var(--tertiary); outline-offset: 2px; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        input:disabled + .slider { background-color: var(--primary); opacity: 0.6; cursor: not-allowed; }
 
-        .save-btn-container {
-            text-align: center;
-            margin-top: 3rem;
-            margin-bottom: 2rem;
-        }
-        .save-btn {
-            background-color: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all var(--transition-speed) ease;
-            box-shadow: 0 4px 15px rgba(29, 4, 105, 0.2);
-        }
-        .save-btn:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
-        }
+        .save-btn-container { text-align: center; margin-top: 3rem; margin-bottom: 2rem; }
+        .save-btn { background-color: var(--primary); color: var(--white); border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all var(--transition-speed) ease; box-shadow: 0 4px 15px rgba(29, 4, 105, 0.2); }
+        .save-btn:hover { background-color: var(--secondary); transform: translateY(-2px); }
         
-        #status-msg {
-            text-align: center;
-            color: #00875A;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 1rem;
-            display: none;
-            background-color: #E6F7F0;
-            padding: 15px;
-            border-radius: 8px;
-        }
+        #status-msg { text-align: center; color: #00875A; font-weight: bold; font-size: 1.1rem; margin-top: 1rem; display: none; background-color: #E6F7F0; padding: 15px; border-radius: 8px; }
 
         @media (max-width: 768px) {
-            .cookie-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.5rem;
-            }
-            .cookie-info {
-                padding-right: 0;
-            }
+            .cookie-card { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .cookie-info { padding-right: 0; }
+            .dashboard-header { flex-direction: column; gap: 10px; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================ -->
-    <!-- LIEN D'ÉVITEMENT                             -->
-    <!-- ============================================ -->
+    <!-- LIEN D'ÉVITEMENT -->
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
-    <!-- ============================================ -->
-    <!-- BOUTON & PANNEAU ACCESSIBILITÉ               -->
-    <!-- ============================================ -->
-    <button id="accessibility-button" aria-label="Ouvrir le panneau d'accessibilité" aria-expanded="false" aria-controls="accessibility-panel">
-        <i class="fas fa-universal-access" aria-hidden="true"></i>
-    </button>
-
-    <aside id="accessibility-panel" class="accessibility-panel" role="dialog" aria-labelledby="accessibility-title" aria-modal="false">
-        <button class="close-btn" aria-label="Fermer le panneau d'accessibilité" id="close-panel-btn">
-            <i class="fas fa-times" aria-hidden="true"></i>
-        </button>
-
-        <h2 id="accessibility-title">Options d'accessibilité</h2>
-        <div class="accessibility-status" role="status" aria-live="polite">
-            <p><strong>Modes actifs :</strong> <span id="active-modes-count">Aucun</span></p>
-        </div>
-
-        <section class="accessibility-section">
-            <h3>Modes d'accessibilité</h3>
-            <div class="accessibility-option" data-mode="epilepsy-safe" role="switch" aria-checked="false" tabindex="0">
-                <div>
-                    <strong>Mode sans échec pour l'épilepsie</strong>
-                    <p class="option-desc">Atténue la couleur et supprime les clignements</p>
-                </div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="visually-impaired" role="switch" aria-checked="false" tabindex="0">
-                <div>
-                    <strong>Mode malvoyant</strong>
-                    <p class="option-desc">Améliore les visuels du site</p>
-                </div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="cognitive-disability" role="switch" aria-checked="false" tabindex="0">
-                <div>
-                    <strong>Mode handicap cognitif</strong>
-                    <p class="option-desc">Aide à se concentrer sur un contenu spécifique</p>
-                </div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="adhd-friendly" role="switch" aria-checked="false" tabindex="0">
-                <div>
-                    <strong>Mode adapté au TDAH</strong>
-                    <p class="option-desc">Réduit les distractions</p>
-                </div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="screen-reader" role="switch" aria-checked="false" tabindex="0">
-                <div>
-                    <strong>Mode Cécité</strong>
-                    <p class="option-desc">Optimisé pour lecteur d'écran</p>
-                </div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-        </section>
-
-        <section class="accessibility-section">
-            <h3>Expérience lisible</h3>
-            <div class="slider-option">
-                <label for="font-size-slider">Taille de la police</label>
-                <div class="slider-container">
-                    <input type="range" id="font-size-slider" min="80" max="150" value="100" step="10" aria-valuemin="80" aria-valuemax="150" aria-valuenow="100" aria-label="Ajuster la taille de la police">
-                    <span id="font-size-value">100%</span>
-                </div>
-            </div>
-            <div class="slider-option">
-                <label for="line-height-slider">Hauteur de ligne</label>
-                <div class="slider-container">
-                    <input type="range" id="line-height-slider" min="1.2" max="2.5" value="1.6" step="0.1" aria-label="Ajuster la hauteur de ligne">
-                    <span id="line-height-value">1.6</span>
-                </div>
-            </div>
-            <div class="slider-option">
-                <label for="letter-spacing-slider">Espacement des lettres</label>
-                <div class="slider-container">
-                    <input type="range" id="letter-spacing-slider" min="0" max="5" value="0" step="0.5" aria-label="Ajuster l'espacement des lettres">
-                    <span id="letter-spacing-value">0px</span>
-                </div>
-            </div>
-            <div class="accessibility-option" data-mode="dyslexia-font" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Police adaptée à la dyslexie</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="highlight-headings" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Titres en surbrillance</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="highlight-links" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Liens en surbrillance</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="text-align-options">
-                <label>Alignement du texte</label>
-                <div class="button-group" role="radiogroup" aria-label="Alignement du texte">
-                    <button class="align-btn active" data-align="left" role="radio" aria-checked="true" aria-label="Aligner à gauche"><i class="fas fa-align-left" aria-hidden="true"></i></button>
-                    <button class="align-btn" data-align="center" role="radio" aria-checked="false" aria-label="Centrer"><i class="fas fa-align-center" aria-hidden="true"></i></button>
-                    <button class="align-btn" data-align="right" role="radio" aria-checked="false" aria-label="Aligner à droite"><i class="fas fa-align-right" aria-hidden="true"></i></button>
-                </div>
-            </div>
-        </section>
-
-        <section class="accessibility-section">
-            <h3>Expérience visuellement agréable</h3>
-            <div class="button-group" role="radiogroup" aria-label="Mode de contraste">
-                <button class="contrast-btn active" data-contrast="normal" role="radio" aria-checked="true" aria-label="Contraste normal">Normal</button>
-                <button class="contrast-btn" data-contrast="dark" role="radio" aria-checked="false" aria-label="Mode sombre">Sombre</button>
-                <button class="contrast-btn" data-contrast="light" role="radio" aria-checked="false" aria-label="Mode clair">Clair</button>
-                <button class="contrast-btn" data-contrast="high" role="radio" aria-checked="false" aria-label="Contraste élevé">Élevé</button>
-            </div>
-            <div class="accessibility-option" data-mode="high-saturation" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Haute saturation</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="low-saturation" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Faible saturation</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="monochrome" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Monochrome</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-        </section>
-
-        <section class="accessibility-section">
-            <h3>Orientation facile</h3>
-            <div class="accessibility-option" data-mode="highlight-cursor" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Mettre en surbrillance le curseur</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="big-cursor-dark" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Grand curseur sombre</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-            <div class="accessibility-option" data-mode="big-cursor-light" role="switch" aria-checked="false" tabindex="0">
-                <div><strong>Grand curseur clair</strong></div>
-                <div class="toggle-switch" aria-hidden="true"></div>
-            </div>
-        </section>
-
-        <button id="reset-accessibility-btn" class="reset-btn">
-            <i class="fas fa-undo" aria-hidden="true"></i> Réinitialiser tous les paramètres
-        </button>
-    </aside>
-
-    <!-- ============================================ -->
-    <!-- HEADER                                       -->
-    <!-- ============================================ -->
+    <!-- HEADER -->
     <header role="banner">
         <div>
             <img src="https://skynium.fr/ressources/logo.png" alt="Skynium - Retour à l'accueil"> 
@@ -401,15 +269,10 @@
                 </li>
                 <li><a href="https://www.skynium.fr/apropos.html">À propos</a></li>
             </ul>
-            <button id="mobile-menu-icon" aria-label="Ouvrir le menu de navigation" aria-expanded="false" aria-controls="main-nav">
-                <i class="fa-solid fa-bars" aria-hidden="true"></i>
-            </button>
         </nav>
     </header>
 
-    <!-- ============================================ -->
-    <!-- CONTENU PRINCIPAL                            -->
-    <!-- ============================================ -->
+    <!-- CONTENU PRINCIPAL -->
     <main id="main-content" role="main">
         
         <section class="privacy-hero">
@@ -421,62 +284,56 @@
         </section>
 
         <!-- ============================================ -->
-        <!-- POLITIQUE DE TRAITEMENT DES DONNÉES          -->
+        <!-- LIVE DASHBOARD MATOMO (LA MAGIE OPÈRE ICI)   -->
         <!-- ============================================ -->
-        <section aria-labelledby="policy-heading">
-            <h2 id="policy-heading" class="section-title">Politique de traitement des données</h2>
+        <section aria-labelledby="live-heading">
+            <h2 id="live-heading" class="section-title">Ce que nous voyons de vous en direct</h2>
             
-            <div class="policy-grid">
+            <div id="matomo-live-card" class="live-dashboard blind-mode">
                 
-                <!-- Finalités et Données -->
-                <div class="policy-card">
-                    <h3><i class="fas fa-bullseye"></i> Finalités & Données</h3>
-                    <p>Les données personnelles collectées (nom, prénom, e-mail, téléphone, demande d’assistance, navigateur, pays, adresse IP) sont utilisées pour :</p>
-                    <ul>
-                        <li>Gérer les demandes d’assistance</li>
-                        <li>Facturer les prestations (si applicable)</li>
-                        <li>Assurer le suivi client</li>
-                        <li>Envoi de newsletters (avec consentement explicite)</li>
-                    </ul>
+                <!-- Overlay quand le tracking est désactivé -->
+                <div class="blind-overlay">
+                    <i class="fas fa-eye-slash blind-icon" aria-hidden="true"></i>
+                    <div class="blind-text">
+                        Vous avez refusé le suivi statistique.<br>
+                        Notre serveur est aveugle : Matomo est désactivé et nous ne récoltons absolument rien sur votre navigation.
+                    </div>
                 </div>
 
-                <!-- Base légale -->
-                <div class="policy-card" style="border-top-color: var(--secondary);">
-                    <h3><i class="fas fa-balance-scale"></i> Base Légale</h3>
-                    <p>Le traitement de vos données s'appuie sur les bases légales suivantes :</p>
-                    <ul>
-                        <li><strong>Consentement :</strong> Pour l'envoi de newsletters.</li>
-                        <li><strong>Exécution d'un contrat :</strong> Pour la réalisation et la facturation des prestations.</li>
-                        <li><strong>Obligation légale :</strong> Si applicable (ex: conservation comptable).</li>
-                    </ul>
+                <div class="dashboard-header">
+                    <h3><i class="fas fa-satellite-dish" aria-hidden="true"></i> Radar Matomo Skynium</h3>
+                    <div class="status-badge" id="matomo-status-badge">
+                        <i class="fas fa-circle-notch fa-spin" aria-hidden="true"></i> Analyse en cours...
+                    </div>
                 </div>
 
-                <!-- Destinataires -->
-                <div class="policy-card">
-                    <h3><i class="fas fa-network-wired"></i> Destinataires</h3>
-                    <p>Vos données sont accessibles et traitées uniquement par :</p>
-                    <ul>
-                        <li><strong>L’éditeur :</strong> Jonathan BALBAS</li>
-                        <li><strong>Outils métiers :</strong> Invoice Ninja (facturation), FreeScout (assistance), Tally (suivi client)</li>
-                        <li><strong>Hébergeurs :</strong> IONOS et OVH</li>
-                    </ul>
-                    <p style="margin-top: 10px; font-weight: bold; color: #00875A;"><i class="fas fa-globe-europe"></i> Aucun transfert hors UE.</p>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <i class="fab fa-chrome" id="browser-icon" aria-hidden="true"></i>
+                        <div class="data-label">Navigateur & Système</div>
+                        <div class="data-value" id="val-browser">Détection...</div>
+                    </div>
+                    <div class="data-item">
+                        <i class="fas fa-desktop" aria-hidden="true"></i>
+                        <div class="data-label">Résolution d'écran</div>
+                        <div class="data-value" id="val-resolution">...</div>
+                    </div>
+                    <div class="data-item">
+                        <i class="fas fa-globe-europe" aria-hidden="true"></i>
+                        <div class="data-label">Langue & Région</div>
+                        <div class="data-value" id="val-locale">...</div>
+                    </div>
+                    <div class="data-item">
+                        <i class="fas fa-user-secret" aria-hidden="true"></i>
+                        <div class="data-label">Identité IP</div>
+                        <div class="data-value" style="color: var(--secondary); font-size: 0.95rem;">
+                            Masquée et Anonymisée par défaut.
+                        </div>
+                    </div>
                 </div>
-
-                <!-- Durée & Droits -->
-                <div class="policy-card" style="border-top-color: var(--secondary);">
-                    <h3><i class="fas fa-user-shield"></i> Conservation & Vos Droits</h3>
-                    <p><strong>Durée de conservation :</strong></p>
-                    <ul>
-                        <li>Demandes d’assistance : 5 ans</li>
-                        <li>Factures et devis : 7 ans</li>
-                    </ul>
-                    <p style="margin-top: 10px;"><strong>Vos droits (RGPD) :</strong><br>
-                    Vous disposez d'un droit d’accès, de rectification, d’effacement, d’opposition, de portabilité et du droit de retirer votre consentement à tout moment.</p>
-                    <p style="margin-top: 10px;"><strong>Pour exercer ces droits :</strong><br>
-                    <a href="mailto:jonathanb@skynium.fr">jonathanb@skynium.fr</a></p>
-                </div>
-
+                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #777;">
+                    <em>Ces données techniques brutes sont utilisées exclusivement sur notre serveur privé pour des statistiques globales anonymes (pages les plus visitées, bugs d'affichage).</em>
+                </p>
             </div>
         </section>
 
@@ -486,14 +343,12 @@
         <section aria-labelledby="cookies-heading">
             <h2 id="cookies-heading" class="section-title">Gestion de vos cookies</h2>
 
-            <!-- Cookies Obligatoires -->
             <div class="cookie-card required">
                 <div class="cookie-info">
                     <h3><i class="fas fa-lock" aria-hidden="true"></i> Cookies strictement nécessaires</h3>
                     <p>
                         Le site utilise des cookies obligatoires pour mémoriser les informations de contact (nom, e-mail, téléphone) 
-                        et assurer le fonctionnement sécurisé du site (ex: portail Auth0). Le consentement n’est pas requis pour ces cookies 
-                        strictement nécessaires au fonctionnement du site.
+                        et assurer le fonctionnement sécurisé du site (ex: portail Auth0).
                     </p>
                 </div>
                 <div class="switch-container">
@@ -504,12 +359,11 @@
                 </div>
             </div>
 
-            <!-- Cookies Suivi (Analytiques) -->
             <div class="cookie-card">
                 <div class="cookie-info">
-                    <h3><i class="fas fa-route" aria-hidden="true" style="color: var(--secondary);"></i> Cookies de suivi de navigation</h3>
+                    <h3><i class="fas fa-route" aria-hidden="true" style="color: var(--secondary);"></i> Cookies de suivi de navigation (Matomo)</h3>
                     <p>
-                        Nous utilisons ces cookies pour suivre la navigation (navigateur utilisé, pays de connexion, adresse IP). 
+                        Nous utilisons ces cookies pour suivre la navigation (navigateur utilisé, pays de connexion). 
                         Cela nous permet de comprendre comment vous interagissez avec l'écosystème Skynium afin d'améliorer nos services.
                     </p>
                 </div>
@@ -521,7 +375,6 @@
                 </div>
             </div>
 
-            <!-- Bouton de sauvegarde -->
             <div class="save-btn-container">
                 <button id="save-preferences" class="save-btn">
                     <i class="fas fa-save" aria-hidden="true"></i> Enregistrer mes préférences
@@ -530,15 +383,41 @@
                     <i class="fas fa-check-circle" aria-hidden="true"></i> Vos préférences ont été appliquées avec succès à tout l'écosystème Skynium !
                 </div>
             </div>
+        </section>
 
+        <!-- ============================================ -->
+        <!-- POLITIQUE DE TRAITEMENT DES DONNÉES          -->
+        <!-- ============================================ -->
+        <section aria-labelledby="policy-heading">
+            <h2 id="policy-heading" class="section-title">Ce que nous conservons dans nos bases</h2>
+            
+            <div class="policy-grid">
+                
+                <div class="policy-card">
+                    <h3><i class="fas fa-headset"></i> Support & Assistance (FreeScout)</h3>
+                    <p>Si vous nous contactez, nous conservons : Prénom, Nom, Mail, Numéro de téléphone, Sexe, et l'historique complet de vos tickets d'assistance.</p>
+                    <p><em>Durée de conservation : 3 ans après la clôture de la demande.</em></p>
+                </div>
+
+                <div class="policy-card" style="border-top-color: var(--secondary);">
+                    <h3><i class="fas fa-file-invoice-dollar"></i> Facturation (Invoice Ninja)</h3>
+                    <p>Si vous êtes client, nous conservons : Prénom, Nom, Adresse Postale, Mail, Téléphone, Sexe, numéro de TVA (pro) et historique financier.</p>
+                    <p><em>Durée de conservation : 10 ans (Obligation comptable légale).</em></p>
+                </div>
+
+                <div class="policy-card">
+                    <h3><i class="fas fa-ticket-alt"></i> Skynium Events (Pretix)</h3>
+                    <p>Si vous participez à un événement : Nom, Prénom, Mail, Téléphone, Adresse postale. Les données bancaires ne sont <strong>pas stockées</strong> en clair.</p>
+                    <p><em>Durée de conservation : Supprimées à la fin de l'événement (ou gardées 3 ans si vous avez créé un compte permanent).</em></p>
+                </div>
+
+            </div>
         </section>
 
     </main>
 
-    <!-- ============================================ -->
-    <!-- FOOTER                                       -->
-    <!-- ============================================ -->
-    <footer role="contentinfo">
+    <!-- FOOTER -->
+        <footer role="contentinfo">
         <div>
             <h3>Nos réseaux</h3>
             <nav aria-label="Réseaux sociaux">
@@ -553,12 +432,13 @@
             <h3>Informations</h3>
             <nav aria-label="Informations légales">
                 <ul>
-                    <li><a href="https://skynium.fr/mentionslegales.html">Mentions Légales</a></li>
-                    <li><a href="https://skynium.fr/politiqueconfidentialite.html">Politique de Confidentialité</a></li>
-                    <li><a href="https://skynium.fr/accessibilite.html">Accessibilité : totalement conforme</a></li>
-                    <li><a href="https://skynium.fr/souverainete.html">Souveraineté Numérique</a></li>
-                    <li><a href="https://privacy.skynium.fr">CENTRE DE CONFIDENTIALITÉ</a></li>
-                    <li><a href="https://skynium.fr/horizon2027.html">Horizon 2027</a></li>
+                    <li><a href="mentionslegales.html">Mentions Légales</a></li>
+                    <li><a href="politiqueconfidentialite.html">Politique de Confidentialité</a></li>
+                    <li><a href="accessibilite.html">Accessibilité : totalement conforme</a></li>
+                    <li><a href="souverainete.html">Souveraineté Numérique</a></li>
+                    <li><a href="https://privacy.skynium.fr">Centre de Confidentialité</a></li>
+                    <li><a href="plan-du-site.html">Plan du site</a></li>
+                    <li><a href="horizon2027.html">Horizon 2027</a></li>
                 </ul>
             </nav>
         </div>
@@ -572,13 +452,7 @@
         </div>
     </footer>
 
-    <!-- SCRIPTS GLOBAUX -->
-    <call-us-selector phonesystem-url="https://1187.3cx.cloud" party="skynium"></call-us-selector>
-    <script>var FreeScoutW={s:{"color":"#1d0469","position":"br","locale":"fr","require":["name","email","phone"],"id":1681224262}};(function(d,e,s){if(d.getElementById("freescout-w"))return;a=d.createElement(e);m=d.getElementsByTagName(e)[0];a.async=1;a.id="freescout-w";a.src=s;m.parentNode.insertBefore(a, m)})(document,"script","https://support.iris.skynium.fr/modules/chat/js/widget.js?v=2503");</script>
-    <script src="https://skynium.fr/ressources/accessibility.js"></script>
-    <script src="https://skynium.fr/ressources/app.js"></script>
-
-    <!-- SCRIPT GESTION DES COOKIES DE CONFIDENTIALITÉ -->
+    <!-- SCRIPT GESTION DES COOKIES ET LIVE DASHBOARD -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
@@ -604,23 +478,74 @@
             const toggle = document.getElementById('analytics-toggle');
             const currentConsent = getPrivacyCookie('skynium_data_consent');
             
-            if (currentConsent === 'accepted') {
-                toggle.checked = true;
-            } else {
-                toggle.checked = false;
+            // Éléments du Live Dashboard
+            const liveCard = document.getElementById('matomo-live-card');
+            const badge = document.getElementById('matomo-status-badge');
+            const valBrowser = document.getElementById('val-browser');
+            const valRes = document.getElementById('val-resolution');
+            const valLocale = document.getElementById('val-locale');
+            const iconBrowser = document.getElementById('browser-icon');
+
+            // Fonction magique pour détecter le navigateur du client
+            function detectBrowser() {
+                const userAgent = navigator.userAgent;
+                let browserName = "Inconnu";
+                let osName = "OS Inconnu";
+
+                if (userAgent.match(/chrome|chromium|crios/i)) { browserName = "Chrome"; iconBrowser.className = "fab fa-chrome"; }
+                else if (userAgent.match(/firefox|fxios/i)) { browserName = "Firefox"; iconBrowser.className = "fab fa-firefox"; }
+                else if (userAgent.match(/safari/i)) { browserName = "Safari"; iconBrowser.className = "fab fa-safari"; }
+                else if (userAgent.match(/opr\//i)) { browserName = "Opera"; iconBrowser.className = "fab fa-opera"; }
+                else if (userAgent.match(/edg/i)) { browserName = "Edge"; iconBrowser.className = "fab fa-edge"; }
+
+                if (userAgent.indexOf("Win") !== -1) osName = "Windows";
+                else if (userAgent.indexOf("Mac") !== -1) osName = "macOS";
+                else if (userAgent.indexOf("Linux") !== -1) osName = "Linux";
+                else if (userAgent.indexOf("Android") !== -1) osName = "Android";
+                else if (userAgent.indexOf("like Mac") !== -1) osName = "iOS";
+
+                return `${browserName} sur ${osName}`;
             }
 
+            // Mettre à jour le Live Dashboard
+            function updateLiveDashboard(isAccepted) {
+                if (isAccepted) {
+                    liveCard.classList.remove('blind-mode');
+                    badge.innerHTML = '<i class="fas fa-broadcast-tower"></i> Transmission active';
+                    
+                    valBrowser.innerText = detectBrowser();
+                    valRes.innerText = `${window.screen.width} x ${window.screen.height} px`;
+                    
+                    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    const lang = navigator.language || navigator.userLanguage;
+                    valLocale.innerText = `${lang.toUpperCase()} (${tz})`;
+                } else {
+                    liveCard.classList.add('blind-mode');
+                    badge.innerHTML = '<i class="fas fa-eye-slash"></i> Traçage bloqué';
+                }
+            }
+
+            // Initialisation au chargement
+            if (currentConsent === 'accepted') {
+                toggle.checked = true;
+                updateLiveDashboard(true);
+            } else {
+                toggle.checked = false;
+                updateLiveDashboard(false);
+            }
+
+            // Gestion de l'enregistrement des préférences
             const saveBtn = document.getElementById('save-preferences');
             saveBtn.addEventListener('click', () => {
                 const isAccepted = toggle.checked;
                 
                 setPrivacyCookie('skynium_data_consent', isAccepted ? 'accepted' : 'refused', 365);
                 
+                updateLiveDashboard(isAccepted); // L'effet visuel est immédiat !
+
                 const msg = document.getElementById('status-msg');
                 msg.style.display = 'block';
                 
-                window.scrollTo({ top: msg.offsetTop - 150, behavior: 'smooth' });
-
                 setTimeout(() => { 
                     msg.style.display = 'none'; 
                 }, 5000);
