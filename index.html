@@ -580,6 +580,33 @@
             </div>
         </section>
 
+        <section aria-labelledby="takeout-heading">
+            <h2 id="takeout-heading" class="section-title">Skynium Takeout : Vos données en 1 clic</h2>
+            
+            <div class="live-dashboard" style="border-color: var(--secondary); background: rgba(250, 93, 255, 0.02);">
+                <div class="dashboard-header">
+                    <h3><i class="fas fa-box-open" aria-hidden="true" style="color: var(--secondary);"></i> Exporter mon archive</h3>
+                </div>
+                
+                <p style="color: #555; line-height: 1.6; margin-bottom: 1.5rem;">
+                    Conformément à l'article 20 du RGPD (Droit à la portabilité), vous pouvez demander une copie intégrale 
+                    des données que nous possédons sur vous. Entrez l'adresse e-mail associée à votre compte Skynium, FreeScout ou Pretix. 
+                    Notre serveur va compiler vos tickets d'assistance, vos factures et vos billets, et vous les envoyer par e-mail sécurisé d'ici quelques minutes.
+                </p>
+
+                <form id="takeout-form" style="display: flex; gap: 10px; max-width: 500px; margin: 0 auto; flex-wrap: wrap;">
+                    <input type="email" id="takeout-email" placeholder="votre.email@exemple.fr" required 
+                           style="flex: 1; padding: 12px 20px; border: 1px solid #ccc; border-radius: 50px; font-size: 1rem; outline: none;">
+                    
+                    <button type="submit" class="save-btn" style="background-color: var(--secondary); padding: 12px 25px; min-width: 150px;">
+                        <span id="takeout-btn-text"><i class="fas fa-paper-plane" aria-hidden="true"></i> Demander l'export</span>
+                    </button>
+                </form>
+
+                <div id="takeout-msg" style="text-align: center; margin-top: 1rem; font-weight: bold; display: none;"></div>
+            </div>
+        </section>
+
     </main>
 
     <!-- FOOTER -->
@@ -719,8 +746,36 @@
 
         });
     </script>
+    <script>
+            document.getElementById('takeout-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('takeout-email').value;
+                const btnText = document.getElementById('takeout-btn-text');
+                const msg = document.getElementById('takeout-msg');
 
-    <!-- En bas de ta page, juste avant </body> -->
+                // Animation de chargement
+                btnText.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Recherche...';
+                
+                // Appel vers ton VPS (L'API Skynium Takeout que nous allons créer)
+                fetch('https://api.skynium.fr/takeout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                })
+                .then(response => {
+                    btnText.innerHTML = '<i class="fas fa-check" aria-hidden="true"></i> Demande envoyée';
+                    msg.style.display = 'block';
+                    msg.style.color = '#00875A';
+                    msg.innerHTML = "✅ Si cette adresse existe dans nos bases, vous recevrez votre archive d'ici 5 à 10 minutes.";
+                })
+                .catch(error => {
+                    btnText.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i> Réessayer';
+                    msg.style.display = 'block';
+                    msg.style.color = 'red';
+                    msg.innerHTML = "❌ Une erreur de connexion au serveur sécurisé s'est produite.";
+                });
+            });
+    </script>
     <script src="https://skynium.fr/ressources/accessibility.js"></script>
     <script src="https://skynium.fr/ressources/app.js"></script>
 </body>
